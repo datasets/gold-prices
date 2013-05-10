@@ -5,12 +5,12 @@ import csv
 
 downloaded = 'cache/bbk_WU5500.csv'
 outpath = 'data/data.csv'
+source_url = 'http://www.bundesbank.de/statistik/statistik_zeitreihen_download.en.php?func=directcsv&from=&until=&filename=bbk_WU5500&csvformat=en&euro=mixed&tr=WU5500'
 
 def download():
     if not os.path.exists('cache'):
         os.makedirs('cache')
-    url = 'http://www.bundesbank.de/statistik/statistik_zeitreihen_download.en.php?func=directcsv&from=&until=&filename=bbk_WU5500&csvformat=en&euro=mixed&tr=WU5500'
-    urllib.urlretrieve(url, downloaded)
+    urllib.urlretrieve(source_url, downloaded)
 
 def extract():
     reader = csv.reader(open(downloaded))
@@ -42,6 +42,8 @@ def extract():
     writer.writerows(outrows)
     fo.close()
 
+import os
+os.environ['http_proxy'] = ''
 def upload():
     import datastore.client as c
     dsurl = 'http://datahub.io/dataset/gold-prices/resource/b9aae52b-b082-4159-b46f-7bb9c158d013'
@@ -53,7 +55,7 @@ def upload():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     print 'Downloading'
-    # download()
+    download()
     print 'Extracting and merging'
     extract()
     print 'Uploading'
