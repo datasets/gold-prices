@@ -2,6 +2,8 @@ Monthly gold prices (USD) in London. Data is sourced from the Bundesbank.
 
 ## Data
 
+* [Bundesbank statistic page](http://www.bundesbank.de/Navigation/EN/Statistics/Time_series_databases/Macro_economic_time_series/macro_economic_time_series_node.html?anker=AUSSENWIRTSCHAFTDEV)
+
 ### Notes from the Source
 
 General: 1 ounce of fine gold = 31.1034768g. Method of calculation:

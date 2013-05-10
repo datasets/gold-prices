@@ -5,7 +5,7 @@ import csv
 
 downloaded = 'cache/bbk_WU5500.csv'
 outpath = 'data/data.csv'
-source_url = 'http://www.bundesbank.de/statistik/statistik_zeitreihen_download.en.php?func=directcsv&from=&until=&filename=bbk_WU5500&csvformat=en&euro=mixed&tr=WU5500'
+source_url = 'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBK01.WU5500&its_csvFormat=en&its_fileFormat=csv&mode=its'
 
 def download():
     if not os.path.exists('cache'):
@@ -58,6 +58,4 @@ if __name__ == '__main__':
     download()
     print 'Extracting and merging'
     extract()
-    print 'Uploading'
-    upload()
     
