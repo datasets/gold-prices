@@ -1,4 +1,4 @@
-Monthly gold prices (USD) in London. Data is sourced from the Bundesbank.
+Monthly gold prices since 1950 in USD (London market). Data is sourced from the Bundesbank.
 
 ## Data
 

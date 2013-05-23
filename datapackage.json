@@ -1,0 +1,46 @@
+{
+  "name": "gold-prices",
+  "title": "Gold Prices (Monthly in USD)",
+  "description": "",
+  "licenses": [
+    {
+      "id": "odc-pddl",
+      "name": "Public Domain Dedication and License",
+      "version": "1.0",
+      "url": "http://opendatacommons.org/licenses/pddl/1.0/"
+    }
+  ],
+  "sources": [{
+    "name": "Bundesbank statistics",
+    "web": "http://www.bundesbank.de/Navigation/EN/Statistics/Time_series_databases/Macro_economic_time_series/macro_economic_time_series_node.html?anker=AUSSENWIRTSCHAFTDEV"
+  }],
+  "resources": [
+    {
+      "url": "data/data.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "type": "date",
+            "id": "date"
+          },
+          {
+            "type": "number",
+            "id": "price"
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "id": "Graph",
+      "type": "Graph",
+      "state": {
+        "graphType": "lines-and-points",
+        "group": "date",
+        "series": ["price"]
+      }
+    }
+  ]
+}
