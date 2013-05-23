@@ -16,7 +16,7 @@
   }],
   "resources": [
     {
-      "url": "data/data.csv",
+      "path": "data/data.csv",
       "format": "csv",
       "schema": {
         "fields": [
