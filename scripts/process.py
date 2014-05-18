@@ -5,7 +5,7 @@ import csv
 
 downloaded = 'cache/bbk_WU5500.csv'
 outpath = 'data/data.csv'
-source_url = 'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBK01.WU5500&its_csvFormat=en&its_fileFormat=csv&mode=its'
+source_url = 'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its'
 
 def download():
     if not os.path.exists('cache'):

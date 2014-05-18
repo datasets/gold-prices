@@ -22,11 +22,11 @@
         "fields": [
           {
             "type": "date",
-            "id": "date"
+            "name": "date"
           },
           {
             "type": "number",
-            "id": "price"
+            "name": "price"
           }
         ]
       }
