@@ -34,12 +34,15 @@
   ],
   "views": [
     {
-      "id": "Graph",
-      "type": "Graph",
-      "state": {
-        "graphType": "lines-and-points",
+      "name": "graph",
+      "title": "Gold Prices (Monthly in USD)",
+      "specType": "simple",
+      "spec": {
+        "type": "lines-and-points",
         "group": "date",
-        "series": ["price"]
+        "series": [
+          "price"
+        ]
       }
     }
   ]
