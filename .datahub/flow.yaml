@@ -1,75 +1,47 @@
 meta:
-  dataset: bond-yields-uk-10y
+  dataset: gold-prices
   findability: published
   owner: core
   ownerid: core
   version: 1
 inputs:
 - kind: datapackage
-  url: https://raw.githubusercontent.com/datasets/bond-yields-uk-10y/master/.datahub/datapackage.json
+  url: https://raw.githubusercontent.com/datasets/gold-prices/master/.datahub/datapackage.json
   parameters:
     resource-mapping:
-      quarterly: http://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&SeriesCodes=IUQAMNPY&UsingCodes=Y&CSVF=TN&Datefrom=01/Jan/1963
-      annual: http://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&SeriesCodes=IUAAMNPY&UsingCodes=Y&CSVF=TN&Datefrom=01/Jan/1963
+      vix-daily: http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its
     descriptor:
-      name: bond-yields-uk-10y
-      title: 10y UK Government Bond Yields (long-term interest rate)
-      sources:
-        -
-          name: Bank of England
-          path: http://www.bankofengland.co.uk/boeapps/iadb/index.asp?Travel=NIxIRx&levels=1&XNotes=Y&C=DUS&G0Xtop.x=51&G0Xtop.y=7&XNotes2=Y&Nodes=X41514X41515X41516X41517X55047X76909X4051X4052X4128X33880X4053X4058&SectionRequired=I&HideNums=-1&ExtraInfo=true#BM
-          title: Bank of England
-      licenses:
-        -
-          id: odc-pddl
-          path: http://opendatacommons.org/licenses/pddl/
-          name: public_domain_dedication_and_license
+      name: gold-prices
+      title: Gold Prices (Monthly in USD)
+      license: PDDL-1.0
       resources:
         -
-          name: quarterly
-          path: data/quarterly.csv
+          name: data
+          path: data/data.csv
           format: csv
+          mediatype: text/csv
           schema:
             fields:
               -
-                name: Date
-                type: date
-                format: any
+                name: date
+                type: yearmonth
               -
-                name: Rate
+                name: price
                 type: number
-                format: percentage
-                description: Quarterly average yield from British Government Securities, 10 year Nominal Par Yield
-        -
-          name: annual
-          path: data/annual.csv
-          format: csv
-          schema:
-            fields:
-              -
-                name: Year
-                type: date
-                format: any
-              -
-                name: Rate
-                type: number
-                format: percentage
-                description: Annual average yield from British Government Securities, 10 year Nominal Par Yield 
 processing:
   -
-    input: quarterly
+    input: data
     tabulator:
-      skip_rows: 2
+      skip_rows:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - -1
       headers:
-        - Date
-        - Rate
-    output: quarterly
-  -
-    input: annual
-    tabulator:
-      skip_rows: 2
-      headers:
-        - Year
-        - Rate
-    output: annual
-schedule: 'every 90d'
+        - date
+        - price
+    output: data
+schedule: 'every 30d'
