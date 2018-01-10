@@ -9,7 +9,7 @@ inputs:
   url: https://raw.githubusercontent.com/datasets/gold-prices/master/.datahub/datapackage.json
   parameters:
     resource-mapping:
-      vix-daily: http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its
+      data: http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its
     descriptor:
       name: gold-prices
       title: Gold Prices (Monthly in USD)

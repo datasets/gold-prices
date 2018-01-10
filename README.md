@@ -16,6 +16,10 @@ General: 1 ounce of fine gold = 31.1034768g. Method of calculation:
 * Sources for daily prices: April 1968 - March 1974: FT; April 1974 - December 1980: Samuel Montagu & Co. Ltd.; January 1981 - December 2005: FT; January 2006 - present: Reuters.
 * Comment on 1968-03: Average from 1 to 14 March 1968.
 
+## Automation
+
+This dataset is automatically updates every month on the datahub.io site: http://datahub.io/core/gold-prices
+
 ## License
 
 The maintainers have licensed under the Public Domain Dedication and License. The source at the Bundesbank indicates no obvious restrictions on the data and the amount means that database rights are doubtful.
