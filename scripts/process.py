@@ -1,5 +1,5 @@
 import os
-import urllib
+import urllib.request
 import logging
 import csv
 
@@ -10,7 +10,7 @@ source_url = 'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.
 def download():
     if not os.path.exists('cache'):
         os.makedirs('cache')
-    urllib.urlretrieve(source_url, downloaded)
+    urllib.request.urlretrieve(source_url, downloaded)
 
 def extract():
     reader = csv.reader(open(downloaded))
@@ -54,8 +54,8 @@ def upload():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    print 'Downloading'
+    print('Downloading')
     download()
-    print 'Extracting and merging'
+    print('Extracting and merging')
     extract()
     
