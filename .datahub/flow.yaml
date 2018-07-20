@@ -47,5 +47,7 @@ processing:
       headers:
         - date
         - price
+      skip_checks:
+        - extra-value
     output: data
 schedule: 'every 30d'
