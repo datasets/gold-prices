@@ -49,5 +49,19 @@
         ]
       }
     }
+  ],
+  "related": [
+    {
+      "title": "Oil prices",
+      "path": "/core/oil-prices",
+      "publisher": "core",
+      "formats": ["CSV", "JSON"]
+    },
+    {
+      "title": "Natural gas",
+      "path": "/core/natural-gas",
+      "publisher": "core",
+      "formats": ["CSV", "JSON"]
+    }
   ]
 }
