@@ -1,9 +1,16 @@
 {
-  "bytes": 17715,
+  "bytes": 15033,
   "count_of_rows": 894,
-  "hash": "0e9c43e6a4a91ab34edd561594ff91a5",
+  "hash": "de5c969f172de06e16760c84bb72aefa",
   "homepage": "http://www.bundesbank.de",
-  "licenses": "PDDL-1.0",
+  "licenses": [
+    {
+      "id": "odc-pddl",
+      "name": "public_domain_dedication_and_license",
+      "url": "http://opendatacommons.org/licenses/pddl/1.0/",
+      "version": "1.0"
+    }
+  ],
   "name": "gold-prices",
   "profile": "data-package",
   "resources": [
@@ -30,15 +37,15 @@
       }
     },
     {
-      "name": "gold-prices-yearly",
-      "path": "data/yearly.csv",
+      "name": "gold-prices-annual",
+      "path": "data/annual.csv",
       "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
             "format": "any",
             "name": "Date",
-            "type": "date"
+            "type": "yearmonth"
           },
           {
             "format": "any",
@@ -50,6 +57,13 @@
           ""
         ]
       }
+    }
+  ],
+  "sources": [
+    {
+      "name": "bundesbank-gold-prices",
+      "path": "'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its'",
+      "title": "Bundesbank gold prices"
     }
   ],
   "title": "Gold Prices",
