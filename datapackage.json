@@ -1,67 +1,57 @@
 {
+  "bytes": 17715,
+  "count_of_rows": 894,
+  "hash": "0e9c43e6a4a91ab34edd561594ff91a5",
+  "homepage": "http://www.bundesbank.de",
+  "licenses": "PDDL-1.0",
   "name": "gold-prices",
-  "title": "Gold Prices (Monthly in USD)",
-  "description": "",
-  "licenses": [
-    {
-      "name": "ODC-PDDL-1.0",
-      "path": "http://opendatacommons.org/licenses/pddl/",
-      "title": "Open Data Commons Public Domain Dedication and License v1.0"
-    }
-  ],
-  "sources": [
-    {
-      "name": "Bundesbank statistics",
-      "path": "http://www.bundesbank.de/Navigation/EN/Statistics/Time_series_databases/Macro_economic_time_series/macro_economic_time_series_node.html?anker=AUSSENWIRTSCHAFTDEV",
-      "title": "Bundesbank statistics"
-    }
-  ],
+  "profile": "data-package",
   "resources": [
     {
-      "path": "data/data.csv",
-      "format": "csv",
+      "name": "gold-prices-monthly",
+      "path": "data/monthly.csv",
+      "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
-            "type": "date",
-            "name": "date",
-            "format": "any"
+            "format": "default",
+            "name": "Date",
+            "type": "string"
           },
           {
-            "type": "number",
-            "name": "price"
+            "format": "default",
+            "name": "Price",
+            "type": "string"
           }
+        ],
+        "missingValues": [
+          ""
         ]
-      },
-      "name": "data"
-    }
-  ],
-  "views": [
+      }
+    },
     {
-      "name": "graph",
-      "title": "Gold Prices (Monthly in USD)",
-      "specType": "simple",
-      "spec": {
-        "type": "lines-and-points",
-        "group": "date",
-        "series": [
-          "price"
+      "name": "gold-prices-yearly",
+      "path": "data/yearly.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "format": "any",
+            "name": "Date",
+            "type": "date"
+          },
+          {
+            "format": "any",
+            "name": "Price",
+            "type": "number"
+          }
+        ],
+        "missingValues": [
+          ""
         ]
       }
     }
   ],
-  "related": [
-    {
-      "title": "Oil prices",
-      "path": "/core/oil-prices",
-      "publisher": "core",
-      "formats": ["CSV", "JSON"]
-    },
-    {
-      "title": "Natural gas",
-      "path": "/core/natural-gas",
-      "publisher": "core",
-      "formats": ["CSV", "JSON"]
-    }
-  ]
+  "title": "Gold Prices",
+  "version": "0.2.0"
 }
