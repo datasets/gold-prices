@@ -1,27 +1,18 @@
-from dataflows import Flow, PackageWrapper, ResourceWrapper, validate
+from dataflows import Flow, PackageWrapper, validate, delete_fields
 from dataflows import add_metadata, dump_to_path, load, set_type, printer
-import os
-import urllib.request
-import logging
-import csv
-
-downloaded = 'cache/bbk_WU5500.csv'
-source_url = 'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its'
 
 
-def download_csv_resource():
-    source_url = 'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its'
-    downloaded_csv_filepath = 'cache/bbk_WU5500.csv'
-    if not os.path.exists('cache'):
-        os.makedirs('cache')
-    urllib.request.urlretrieve(source_url, downloaded_csv_filepath)
+def extract_december_rows(rows):
+    for row in rows:
+        if '-12' in row['Date']:
+            yield row
 
 
 def rename(package: PackageWrapper):
-    package.pkg.descriptor['resources'][0]['name'] = 'gold-prices-monthly'
-    package.pkg.descriptor['resources'][0]['path'] = 'data/monthly.csv'
-    package.pkg.descriptor['resources'][1]['name'] = 'gold-prices-annual'
-    package.pkg.descriptor['resources'][1]['path'] = 'data/annual.csv'
+    package.pkg.descriptor['resources'][0]['name'] = 'gold-prices-annual'
+    package.pkg.descriptor['resources'][0]['path'] = 'data/annual.csv'
+    package.pkg.descriptor['resources'][1]['name'] = 'gold-prices-monthly'
+    package.pkg.descriptor['resources'][1]['path'] = 'data/monthly.csv'
     yield package.pkg
     res_iter = iter(package)
     for res in res_iter:
@@ -29,26 +20,7 @@ def rename(package: PackageWrapper):
     yield from package
 
 
-def fix_rows(rows):
-    # We skip top 5 rows and trim notes from the bottom. Also as dates are without day specified
-    # we are taking the first day in month by default
-    newrows = [[row[0], row[1]] for row in rows[5:-1]]
-    return newrows
-
-
-def extract_gold_prices(frequency):
-    reader = csv.reader(open(downloaded))
-    rows = [row for row in reader]
-    fixed_rows = fix_rows(rows)
-    for row in fixed_rows:
-        if frequency == 'monthly':
-            yield {'Date': row[0], 'Price': row[1]}
-        elif frequency == 'annual':
-            if row[0].split('-')[1] == '01':
-                yield {'Date': row[0], 'Price': row[1]}
-
-
-download_csv_resource()
+# download_csv_resource()
 gold_price_flow = Flow(
     add_metadata(
         name="gold-prices",
@@ -69,14 +41,54 @@ gold_price_flow = Flow(
               "title": "Bundesbank gold prices"
             }
         ],
+        views=[
+            {
+                "name": "graph",
+                "title": "Gold Prices (Monthly in USD)",
+                "specType": "simple",
+                "spec": {
+                    "type": "lines-and-points",
+                    "group": "Date",
+                    "series": [
+                        "Price"
+                    ]
+                }
+            }
+        ],
+        related=[
+            {
+                "title": "Oil prices",
+                "path": "/core/oil-prices",
+                "publisher": "core",
+                "formats": ["CSV", "JSON"]
+            },
+            {
+                "title": "Natural gas",
+                "path": "/core/natural-gas",
+                "publisher": "core",
+                "formats": ["CSV", "JSON"]
+            }
+        ],
         version="0.2.0"
     ),
-    extract_gold_prices('monthly'),
-    extract_gold_prices('annual'),
-    set_type('Date', type='yearmonth', format='any'),
-    set_type('Price', type='number', format='any'),
+    load(
+        load_source='http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its',
+        skip_rows=[1, 2, 3, 4, 5, -1],
+        headers=['Date', 'Price', 'Empty column']
+    ),
+    extract_december_rows,
+    load(
+        load_source='http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its',
+        skip_rows=[1, 2, 3, 4, 5, -1],
+        headers=['Date', 'Price', 'Empty column']
+    ),
     rename,
+    set_type('Date', resources='gold-prices-annual', type='yearmonth', format='any'),
+    set_type('Price', resources='gold-prices-annual', type='number', format='any'),
+    set_type('Date', resources='gold-prices-monthly', type='yearmonth', format='any'),
+    set_type('Price', resources='gold-prices-monthly', type='number', format='any'),
     validate(),
+    delete_fields(['Empty column'], resources=None),
     dump_to_path(),
 )
 gold_price_flow.process()

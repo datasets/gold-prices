@@ -1,7 +1,7 @@
 {
-  "bytes": 15033,
-  "count_of_rows": 894,
-  "hash": "de5c969f172de06e16760c84bb72aefa",
+  "bytes": 15017,
+  "count_of_rows": 893,
+  "hash": "cdf0461e7143903198d369583edffd50",
   "homepage": "http://www.bundesbank.de",
   "licenses": [
     {
@@ -13,22 +13,45 @@
   ],
   "name": "gold-prices",
   "profile": "data-package",
+  "related": [
+    {
+      "formats": [
+        "CSV",
+        "JSON"
+      ],
+      "path": "/core/oil-prices",
+      "publisher": "core",
+      "title": "Oil prices"
+    },
+    {
+      "formats": [
+        "CSV",
+        "JSON"
+      ],
+      "path": "/core/natural-gas",
+      "publisher": "core",
+      "title": "Natural gas"
+    }
+  ],
   "resources": [
     {
-      "name": "gold-prices-monthly",
-      "path": "data/monthly.csv",
+      "encoding": "utf-8",
+      "format": "C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "mediatype": "text/C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "name": "gold-prices-annual",
+      "path": "data/annual.csv",
       "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
-            "format": "default",
+            "format": "any",
             "name": "Date",
-            "type": "string"
+            "type": "yearmonth"
           },
           {
-            "format": "default",
+            "format": "any",
             "name": "Price",
-            "type": "string"
+            "type": "number"
           }
         ],
         "missingValues": [
@@ -37,8 +60,11 @@
       }
     },
     {
-      "name": "gold-prices-annual",
-      "path": "data/annual.csv",
+      "encoding": "utf-8",
+      "format": "C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "mediatype": "text/C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "name": "gold-prices-monthly",
+      "path": "data/monthly.csv",
       "profile": "tabular-data-resource",
       "schema": {
         "fields": [
@@ -67,5 +93,19 @@
     }
   ],
   "title": "Gold Prices",
-  "version": "0.2.0"
+  "version": "0.2.0",
+  "views": [
+    {
+      "name": "graph",
+      "spec": {
+        "group": "Date",
+        "series": [
+          "Price"
+        ],
+        "type": "lines-and-points"
+      },
+      "specType": "simple",
+      "title": "Gold Prices (Monthly in USD)"
+    }
+  ]
 }
