@@ -1,7 +1,7 @@
 {
   "bytes": 15017,
   "count_of_rows": 893,
-  "hash": "cdf0461e7143903198d369583edffd50",
+  "hash": "018f3ad2f6fd75d59ce08b30cb9f964e",
   "homepage": "http://www.bundesbank.de",
   "licenses": [
     {
@@ -36,8 +36,8 @@
   "resources": [
     {
       "encoding": "utf-8",
-      "format": "C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
-      "mediatype": "text/C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "format": "csv",
+      "mediatype": "text/csv",
       "name": "gold-prices-annual",
       "path": "data/annual.csv",
       "profile": "tabular-data-resource",
@@ -61,8 +61,8 @@
     },
     {
       "encoding": "utf-8",
-      "format": "C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
-      "mediatype": "text/C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "format": "csv",
+      "mediatype": "text/csv",
       "name": "gold-prices-monthly",
       "path": "data/monthly.csv",
       "profile": "tabular-data-resource",
