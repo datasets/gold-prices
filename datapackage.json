@@ -1,67 +1,111 @@
 {
-  "name": "gold-prices",
-  "title": "Gold Prices (Monthly in USD)",
-  "description": "",
+  "bytes": 15017,
+  "count_of_rows": 893,
+  "hash": "018f3ad2f6fd75d59ce08b30cb9f964e",
+  "homepage": "http://www.bundesbank.de",
   "licenses": [
     {
-      "name": "ODC-PDDL-1.0",
-      "path": "http://opendatacommons.org/licenses/pddl/",
-      "title": "Open Data Commons Public Domain Dedication and License v1.0"
+      "id": "odc-pddl",
+      "name": "public_domain_dedication_and_license",
+      "url": "http://opendatacommons.org/licenses/pddl/1.0/",
+      "version": "1.0"
     }
   ],
-  "sources": [
+  "name": "gold-prices",
+  "profile": "data-package",
+  "related": [
     {
-      "name": "Bundesbank statistics",
-      "path": "http://www.bundesbank.de/Navigation/EN/Statistics/Time_series_databases/Macro_economic_time_series/macro_economic_time_series_node.html?anker=AUSSENWIRTSCHAFTDEV",
-      "title": "Bundesbank statistics"
+      "formats": [
+        "CSV",
+        "JSON"
+      ],
+      "path": "/core/oil-prices",
+      "publisher": "core",
+      "title": "Oil prices"
+    },
+    {
+      "formats": [
+        "CSV",
+        "JSON"
+      ],
+      "path": "/core/natural-gas",
+      "publisher": "core",
+      "title": "Natural gas"
     }
   ],
   "resources": [
     {
-      "path": "data/data.csv",
+      "encoding": "utf-8",
       "format": "csv",
+      "mediatype": "text/csv",
+      "name": "gold-prices-annual",
+      "path": "data/annual.csv",
+      "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
-            "type": "date",
-            "name": "date",
-            "format": "any"
+            "format": "any",
+            "name": "Date",
+            "type": "yearmonth"
           },
           {
-            "type": "number",
-            "name": "price"
+            "format": "any",
+            "name": "Price",
+            "type": "number"
           }
+        ],
+        "missingValues": [
+          ""
         ]
-      },
-      "name": "data"
-    }
-  ],
-  "views": [
+      }
+    },
     {
-      "name": "graph",
-      "title": "Gold Prices (Monthly in USD)",
-      "specType": "simple",
-      "spec": {
-        "type": "lines-and-points",
-        "group": "date",
-        "series": [
-          "price"
+      "encoding": "utf-8",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "name": "gold-prices-monthly",
+      "path": "data/monthly.csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "format": "any",
+            "name": "Date",
+            "type": "yearmonth"
+          },
+          {
+            "format": "any",
+            "name": "Price",
+            "type": "number"
+          }
+        ],
+        "missingValues": [
+          ""
         ]
       }
     }
   ],
-  "related": [
+  "sources": [
     {
-      "title": "Oil prices",
-      "path": "/core/oil-prices",
-      "publisher": "core",
-      "formats": ["CSV", "JSON"]
-    },
+      "name": "bundesbank-gold-prices",
+      "path": "'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its'",
+      "title": "Bundesbank gold prices"
+    }
+  ],
+  "title": "Gold Prices",
+  "version": "0.2.0",
+  "views": [
     {
-      "title": "Natural gas",
-      "path": "/core/natural-gas",
-      "publisher": "core",
-      "formats": ["CSV", "JSON"]
+      "name": "graph",
+      "spec": {
+        "group": "Date",
+        "series": [
+          "Price"
+        ],
+        "type": "lines-and-points"
+      },
+      "specType": "simple",
+      "title": "Gold Prices (Monthly in USD)"
     }
   ]
 }
