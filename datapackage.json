@@ -1,7 +1,7 @@
 {
   "bytes": 15017,
   "count_of_rows": 893,
-  "hash": "018f3ad2f6fd75d59ce08b30cb9f964e",
+  "hash": "ce364e6bb1bb414527f0794f52280d58",
   "homepage": "http://www.bundesbank.de",
   "licenses": [
     {
@@ -35,21 +35,22 @@
   ],
   "resources": [
     {
-      "encoding": "utf-8",
+      "dpp:streaming": true,
+      "encoding": "utf-8-sig",
       "format": "csv",
       "mediatype": "text/csv",
-      "name": "gold-prices-annual",
+      "name": "annual",
       "path": "data/annual.csv",
       "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
-            "format": "any",
+            "format": "default",
             "name": "Date",
             "type": "yearmonth"
           },
           {
-            "format": "any",
+            "format": "default",
             "name": "Price",
             "type": "number"
           }
@@ -60,21 +61,22 @@
       }
     },
     {
-      "encoding": "utf-8",
+      "dpp:streaming": true,
+      "encoding": "utf-8-sig",
       "format": "csv",
       "mediatype": "text/csv",
-      "name": "gold-prices-monthly",
+      "name": "monthly",
       "path": "data/monthly.csv",
       "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
-            "format": "any",
+            "format": "default",
             "name": "Date",
             "type": "yearmonth"
           },
           {
-            "format": "any",
+            "format": "default",
             "name": "Price",
             "type": "number"
           }

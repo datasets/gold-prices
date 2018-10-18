@@ -4,6 +4,20 @@ Monthly gold prices since 1950 in USD (London market). Data is sourced from the 
 
 * [Bundesbank statistic page](http://www.bundesbank.de/Navigation/EN/Statistics/Time_series_databases/Macro_economic_time_series/macro_economic_time_series_node.html?anker=AUSSENWIRTSCHAFTDEV)
 
+## Preparation
+
+You will need Python 3.6 or greater and dataflows library to run the script
+
+To update the data run the process script locally:
+
+```
+# Install dataflows
+pip install dataflows
+
+# Run the script
+python gold_price_flow.py
+```
+
 ### Notes from the Source
 
 General: 1 ounce of fine gold = 31.1034768g. Method of calculation:
@@ -23,4 +37,3 @@ This dataset is automatically updates every month on the datahub.io site: http:/
 ## License
 
 The maintainers have licensed under the Public Domain Dedication and License. The source at the Bundesbank indicates no obvious restrictions on the data and the amount means that database rights are doubtful.
-

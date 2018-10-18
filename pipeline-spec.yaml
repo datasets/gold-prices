@@ -1,0 +1,3 @@
+gold-prices-flow:
+  pipeline:
+    - flow: gold_prices_flow

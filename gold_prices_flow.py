@@ -1,5 +1,12 @@
-from dataflows import Flow, PackageWrapper, validate, delete_fields
+import os
+
+from dataflows import Flow, PackageWrapper, validate, delete_fields, update_resource
 from dataflows import add_metadata, dump_to_path, load, set_type, printer
+
+
+def readme(fpath='README.md'):
+    if os.path.exists(fpath):
+        return open(fpath).read()
 
 
 def extract_december_rows(rows):
@@ -8,19 +15,6 @@ def extract_december_rows(rows):
             yield row
 
 
-def rename(package: PackageWrapper):
-    package.pkg.descriptor['resources'][0]['name'] = 'gold-prices-annual'
-    package.pkg.descriptor['resources'][0]['path'] = 'data/annual.csv'
-    package.pkg.descriptor['resources'][1]['name'] = 'gold-prices-monthly'
-    package.pkg.descriptor['resources'][1]['path'] = 'data/monthly.csv'
-    yield package.pkg
-    res_iter = iter(package)
-    for res in res_iter:
-        yield res.it
-    yield from package
-
-
-# download_csv_resource()
 gold_price_flow = Flow(
     add_metadata(
         name="gold-prices",
@@ -75,22 +69,32 @@ gold_price_flow = Flow(
         load_source='http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its',
         skip_rows=[1, 2, 3, 4, 5, -1],
         headers=['Date', 'Price', 'Empty column'],
-        format='csv'
+        format='csv',
+        name='annual'
     ),
     extract_december_rows,
     load(
         load_source='http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its',
         skip_rows=[1, 2, 3, 4, 5, -1],
         headers=['Date', 'Price', 'Empty column'],
-        format='csv'
+        format='csv',
+        name='monthly'
     ),
-    rename,
-    set_type('Date', resources='gold-prices-annual', type='yearmonth', format='any'),
-    set_type('Price', resources='gold-prices-annual', type='number', format='any'),
-    set_type('Date', resources='gold-prices-monthly', type='yearmonth', format='any'),
-    set_type('Price', resources='gold-prices-monthly', type='number', format='any'),
+    update_resource('monthly', **{'path':'data/monthly.csv', 'dpp:streaming': True}),
+    update_resource('annual', **{'path':'data/annual.csv', 'dpp:streaming': True}),
+    set_type('Date', resources='annual', type='yearmonth'),
+    set_type('Price', resources='annual', type='number'),
+    set_type('Date', resources='monthly', type='yearmonth'),
+    set_type('Price', resources='monthly', type='number'),
     validate(),
     delete_fields(['Empty column'], resources=None),
     dump_to_path(),
 )
-gold_price_flow.process()
+
+
+def flow(parameters, datapackage, resources, stats):
+    return gold_price_flow
+
+
+if __name__ == '__main__':
+    gold_price_flow.process()
