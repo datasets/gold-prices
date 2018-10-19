@@ -1,7 +1,7 @@
 import os
 
-from dataflows import Flow, PackageWrapper, validate, delete_fields, update_resource
-from dataflows import add_metadata, dump_to_path, load, set_type, printer
+from dataflows import Flow, PackageWrapper, validate, delete_fields
+from dataflows import add_metadata, load, set_type, update_resource
 
 
 def readme(fpath='README.md'):
@@ -87,8 +87,7 @@ gold_price_flow = Flow(
     set_type('Date', resources='monthly', type='yearmonth'),
     set_type('Price', resources='monthly', type='number'),
     validate(),
-    delete_fields(['Empty column'], resources=None),
-    dump_to_path(),
+    delete_fields(['Empty column'], resources=None)
 )
 
 
