@@ -99,6 +99,7 @@
   "views": [
     {
       "name": "graph",
+      "resources": ["monthly"],
       "spec": {
         "group": "Date",
         "series": [
