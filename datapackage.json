@@ -90,7 +90,7 @@
   "sources": [
     {
       "name": "bundesbank-gold-prices",
-      "path": "'http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its'",
+      "path": "http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
       "title": "Bundesbank gold prices"
     }
   ],
