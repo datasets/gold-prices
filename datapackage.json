@@ -96,7 +96,9 @@
   "views": [
     {
       "name": "graph",
-      "resources": ["monthly"],
+      "resources": [
+        "monthly"
+      ],
       "spec": {
         "group": "Date",
         "series": [
@@ -107,5 +109,6 @@
       "specType": "simple",
       "title": "Gold Prices (Monthly in USD)"
     }
-  ]
+  ],
+  "collection": "stock-market-data"
 }
