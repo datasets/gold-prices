@@ -1,8 +1,5 @@
 {
-  "bytes": 15017,
-  "count_of_rows": 893,
-  "hash": "ce364e6bb1bb414527f0794f52280d58",
-  "homepage": "http://www.bundesbank.de",
+  "homepage": "https://www.worldbank.org/",
   "licenses": [
     {
       "id": "odc-pddl",
@@ -90,7 +87,7 @@
   "sources": [
     {
       "name": "bundesbank-gold-prices",
-      "path": "http://www.bundesbank.de/cae/servlet/StatisticDownload?tsId=BBEX3.M.XAU.USD.EA.AC.C06&its_csvFormat=en&its_fileFormat=csv&mode=its",
+      "path": "https://www.worldbank.org/en/research/commodity-markets",
       "title": "Bundesbank gold prices"
     }
   ],

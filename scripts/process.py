@@ -122,12 +122,14 @@ def process_and_merge_pdf():
     sort_annual.sort_values(by=['Date'], inplace=True)
     sort_annual.drop_duplicates(subset=['Date'], inplace=True)
     sort_annual.Gold = sort_annual.Gold.apply(lambda x: '{0:.3f}'.format(x))
+    sort_annual.rename(columns={'Gold':'Price'}, inplace=True)
     sort_annual.to_csv(f"{data}annual.csv", index=False)
 
     sort_monthly = pd.read_csv(f"{data}monthly.csv")
     sort_monthly.sort_values(by=['Date'], inplace=True)
     sort_monthly.drop_duplicates(subset=['Date'], inplace=True)
     sort_monthly.Gold = sort_monthly.Gold.apply(lambda x: '{0:.3f}'.format(x))
+    sort_monthly.rename(columns={'Gold':'Price'}, inplace=True)
     sort_monthly.to_csv(f"{data}monthly.csv", index=False)
 
 def process():
