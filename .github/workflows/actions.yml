@@ -39,7 +39,7 @@ jobs:
         source venv/bin/activate
         pip install --upgrade pip
         pip install -r scripts/requirements.txt
-        python scripts/update_datasets.py
+        python scripts/process.py
 
     - name: Push and Commit      
       env:
