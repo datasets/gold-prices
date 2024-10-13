@@ -86,9 +86,9 @@
   ],
   "sources": [
     {
-      "name": "bundesbank-gold-prices",
+      "name": "worldbank-gold-prices",
       "path": "https://www.worldbank.org/en/research/commodity-markets",
-      "title": "Bundesbank gold prices"
+      "title": "Worldbank gold prices"
     }
   ],
   "title": "Gold Prices",
