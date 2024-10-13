@@ -1,6 +1,0 @@
-gold-prices-flow:
-  pipeline:
-    - flow: gold_prices_flow
-    - run: datahub.dump.to_datahub
-  schedule:
-    crontab: 0 0 1 * *
