@@ -58,8 +58,7 @@
       }
     },
     {
-      "dpp:streaming": true,
-      "encoding": "utf-8-sig",
+      "encoding": "utf-8",
       "format": "csv",
       "mediatype": "text/csv",
       "name": "monthly",
