@@ -1,4 +1,4 @@
-<a href="https://datahub.io/core/gold-prices"><img src="https://badgen.net/badge/icon/View%20on%20datahub.io/orange?icon=https://datahub.io/datahub-cube-badge-icon.svg&label&scale=1.25)" alt="badge" /></a>
+<a className="gh-badge" href="https://datahub.io/core/gold-prices"><img src="https://badgen.net/badge/icon/View%20on%20datahub.io/orange?icon=https://datahub.io/datahub-cube-badge-icon.svg&label&scale=1.25" alt="badge" /></a>
 
 Monthly gold prices in USD since 1833 (sourced from the World Gold Council). The data is derived from historical records compiled by Timothy Green and supplemented by data provided by the World Bank.
 
