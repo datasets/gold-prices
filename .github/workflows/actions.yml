@@ -54,6 +54,16 @@ jobs:
       - name: Install OpenCode CLI
         run: npm install -g opencode-ai
 
+      - name: Debug workspace for OpenCode inputs
+        run: |
+          pwd
+          ls -la
+          git rev-parse --show-toplevel
+          ls -la .github
+          ls -la .github/scripts
+          test -f .github/AGENTIC_DATASET_UPDATE_GUIDE.md && echo "Guide exists" || echo "Guide missing"
+          test -f .github/scripts/agentic_dataset_update.sh && echo "Script exists" || echo "Script missing"
+
       - name: Run agentic check/update
         env:
           OPENCODE_MODEL: ${{ github.event.inputs.model || vars.OPENCODE_MODEL || 'openai/gpt-5.3-codex' }}
