@@ -4,9 +4,18 @@ set -euo pipefail
 MODEL="${OPENCODE_MODEL:-openai/gpt-5.3-codex}"
 DRY_RUN="${OPENCODE_DRY_RUN:-false}"
 
+GUIDE_FILE=".github/AGENTIC_DATASET_UPDATE_GUIDE.md"
+
+if [[ ! -f "${GUIDE_FILE}" ]]; then
+  echo "Error: missing required guide file: ${GUIDE_FILE}" >&2
+  pwd >&2
+  ls -la >&2
+  exit 1
+fi
+
 PROMPT_FILE="$(mktemp)"
 cat >"${PROMPT_FILE}" <<'EOF'
-Read `.github/AGENTIC_DATASET_UPDATE_GUIDE.md` first, then execute the workflow for this repository.
+Use the attached repository guide first, then execute the workflow tasks.
 
 Tasks:
 1) Discover source endpoints, native update commands, and output files by reading README.md, datapackage.json, and scripts/.
@@ -32,7 +41,7 @@ fi
 echo "Running OpenCode with model: ${MODEL}"
 opencode run \
   --model "${MODEL}" \
-  -f .github/AGENTIC_DATASET_UPDATE_GUIDE.md \
+  -f "${GUIDE_FILE}" \
   "$(cat "${PROMPT_FILE}") ${EXTRA_NOTE}"
 
 rm -f "${PROMPT_FILE}"
