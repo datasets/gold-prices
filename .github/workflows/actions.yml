@@ -1,56 +1,90 @@
-name: Update datasets
+name: Agentic Dataset Update
 
 on:
-  # Schedule to run on the 1st day of each month
   schedule:
-    - cron: '0 0 1 * *'
+    - cron: "15 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "OpenCode model override (provider/model)"
+        required: false
+        default: "openai/gpt-5.3-codex"
+      dry_run:
+        description: "Check freshness only, do not update"
+        required: false
+        type: boolean
+        default: false
 
-  # Run on push to master branch
-  push:
-    branches:
-      - main
-
-  # Run on pull requests targeting the master branch
-  pull_request:
-    branches:
-      - main
-
-  # Allows manual triggering of the workflow
-  workflow_dispatch: 
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  build:
+  check-and-update:
     runs-on: ubuntu-latest
-
-    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 45
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Install Python dependencies
-      run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install --upgrade pip
-        pip install -r scripts/requirements.txt
-        python scripts/process.py
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-    - name: Push and Commit      
-      env:
-        CI_COMMIT_NAME: "Automated commit"
-        CI_COMMIT_EMAIL: "actions@users.noreply.github.com"
-        CI_COMMIT_MESSAGE: "Automated commit"
-      run: |
-        git config --global user.email "${{env.CI_COMMIT_EMAIL}}"
-        git config --global user.name "${{env.CI_COMMIT_NAME}}"
-        git diff --quiet && echo "No changes to commit" || (
-          git add data/  && 
-          git commit -m "${{env.CI_COMMIT_MESSAGE}}" &&
-          git push origin main  # Specify the branch
-        )
+      - name: Install Python tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install \
+            duckdb \
+            pandas \
+            requests \
+            xlrd \
+            openpyxl \
+            dataflows \
+            datapackage \
+            goodtables
+
+      - name: Install OpenCode CLI
+        run: npm install -g opencode-ai
+
+      - name: Run agentic check/update
+        env:
+          OPENCODE_MODEL: ${{ github.event.inputs.model || vars.OPENCODE_MODEL || 'openai/gpt-5.3-codex' }}
+          OPENCODE_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          ZEN_AI_API_KEY: ${{ secrets.ZEN_AI_API_KEY }}
+        run: .github/scripts/agentic_dataset_update.sh
+
+      - name: Show diff summary
+        run: |
+          git status --short
+          git diff --stat
+
+      - name: Create PR if changes exist
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/auto-dataset-update
+          delete-branch: true
+          commit-message: "chore(data): automated gold-prices refresh"
+          title: "chore(data): automated gold-prices refresh"
+          body: |
+            Automated dataset freshness check/update via OpenCode CLI.
+
+            - Trigger: scheduled/manual workflow
+            - Method: source-vs-local freshness comparison
+            - Action: update pipeline executed only when stale
+
+            Guide: `.github/AGENTIC_DATASET_UPDATE_GUIDE.md`
+          labels: |
+            automated
+            data-update
