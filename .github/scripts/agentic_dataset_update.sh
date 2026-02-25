@@ -42,6 +42,7 @@ echo "Running OpenCode with model: ${MODEL}"
 opencode run \
   --model "${MODEL}" \
   -f "${GUIDE_FILE}" \
+  -- \
   "$(cat "${PROMPT_FILE}") ${EXTRA_NOTE}"
 
 rm -f "${PROMPT_FILE}"
