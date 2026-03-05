@@ -56,6 +56,30 @@ def download_xls():
         file.write(response_annual.content)
 
 
+def merge_with_existing(name_file, new_df):
+    output_path = f"{data}{name_file}.csv"
+    if os.path.exists(output_path):
+        existing_df = pd.read_csv(output_path)
+    else:
+        existing_df = pd.DataFrame(columns=["Date", "Price"])
+
+    if "Gold" in existing_df.columns:
+        existing_df.rename(columns={"Gold": "Price"}, inplace=True)
+    if "Gold" in new_df.columns:
+        new_df = new_df.rename(columns={"Gold": "Price"})
+
+    merged = pd.concat([existing_df, new_df], ignore_index=True)
+    merged = merged.filter(["Date", "Price"])
+    merged.dropna(subset=["Date", "Price"], inplace=True)
+    merged.Date = merged.Date.astype(str)
+    merged.Price = pd.to_numeric(merged.Price, errors="coerce")
+    merged.dropna(subset=["Price"], inplace=True)
+    merged.sort_values(by=["Date"], inplace=True)
+    merged.drop_duplicates(subset=["Date"], keep="last", inplace=True)
+    merged.Price = merged.Price.apply(lambda x: "{0:.3f}".format(x))
+    merged.to_csv(output_path, index=False)
+
+
 def modify_and_create(name_file, symbol, sheetname, index_to_drop, drop_row):
     dfs = pd.read_excel(f"{cache}{name_file}.xls", sheet_name=sheetname)
     dfs = dfs.iloc[drop_row:]
@@ -70,7 +94,8 @@ def modify_and_create(name_file, symbol, sheetname, index_to_drop, drop_row):
     if symbol in str(df.Date[0]):
         df.Date = df.Date.str.replace(symbol, "-")
     df.Gold = df.Gold.astype(float)
-    df.to_csv(f"{data}{name_file}.csv", index=False)
+    df.rename(columns={"Gold": "Price"}, inplace=True)
+    merge_with_existing(name_file, df)
 
 
 def pdf_historical(name_file):
@@ -123,27 +148,11 @@ def process_and_merge_pdf():
         for month in month_divider(elem[0]):
             monthly_values.append([month, elem[1]])
 
-    with open(f"{data}annual.csv", "a") as file:
-        for value in values:
-            file.write(f"{value[0]},{value[1]}\n")
+    annual_df = pd.DataFrame(values, columns=["Date", "Price"])
+    monthly_df = pd.DataFrame(monthly_values, columns=["Date", "Price"])
 
-    with open(f"{data}monthly.csv", "a") as file:
-        for value in monthly_values:
-            file.write(f"{value[0]},{value[1]}\n")
-
-    sort_annual = pd.read_csv(f"{data}annual.csv")
-    sort_annual.sort_values(by=["Date"], inplace=True)
-    sort_annual.drop_duplicates(subset=["Date"], inplace=True)
-    sort_annual.Gold = sort_annual.Gold.apply(lambda x: "{0:.3f}".format(x))
-    sort_annual.rename(columns={"Gold": "Price"}, inplace=True)
-    sort_annual.to_csv(f"{data}annual.csv", index=False)
-
-    sort_monthly = pd.read_csv(f"{data}monthly.csv")
-    sort_monthly.sort_values(by=["Date"], inplace=True)
-    sort_monthly.drop_duplicates(subset=["Date"], inplace=True)
-    sort_monthly.Gold = sort_monthly.Gold.apply(lambda x: "{0:.3f}".format(x))
-    sort_monthly.rename(columns={"Gold": "Price"}, inplace=True)
-    sort_monthly.to_csv(f"{data}monthly.csv", index=False)
+    merge_with_existing("annual", annual_df)
+    merge_with_existing("monthly", monthly_df)
 
 
 def process():
