@@ -1,100 +1,40 @@
-name: Agentic Dataset Update
+name: Manual Update
 
 on:
-  schedule:
-    - cron: "15 6 * * 1"
   workflow_dispatch:
-    inputs:
-      model:
-        description: "OpenCode model override (provider/model)"
-        required: false
-        default: "openai/gpt-5.3-codex"
-      dry_run:
-        description: "Check freshness only, do not update"
-        required: false
-        type: boolean
-        default: false
+  schedule:
+    - cron: "0 1 * * *"
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
-  check-and-update:
+  update:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Process data
+        run: python scripts/process.py
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "Manual data update"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
         with:
-          node-version: "20"
-
-      - name: Install Python tooling
-        run: |
-          python -m pip install --upgrade pip
-          pip install \
-            duckdb \
-            pandas \
-            requests \
-            xlrd \
-            openpyxl \
-            dataflows \
-            datapackage \
-            goodtables
-
-      - name: Install OpenCode CLI
-        run: npm install -g opencode-ai
-
-      - name: Debug workspace for OpenCode inputs
-        run: |
-          pwd
-          ls -la
-          git rev-parse --show-toplevel
-          ls -la .github
-          ls -la .github/scripts
-          test -f .github/AGENTIC_DATASET_UPDATE_GUIDE.md && echo "Guide exists" || echo "Guide missing"
-          test -f .github/scripts/agentic_dataset_update.sh && echo "Script exists" || echo "Script missing"
-
-      - name: Run agentic check/update
-        env:
-          OPENCODE_MODEL: ${{ github.event.inputs.model || vars.OPENCODE_MODEL || 'openai/gpt-5.3-codex' }}
-          OPENCODE_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-        run: .github/scripts/agentic_dataset_update.sh
-
-      - name: Show diff summary
-        run: |
-          git status --short
-          git diff --stat
-
-      - name: Create PR if changes exist
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: chore/auto-dataset-update
-          delete-branch: true
-          commit-message: "chore(data): automated gold-prices refresh"
-          title: "chore(data): automated gold-prices refresh"
-          body: |
-            Automated dataset freshness check/update via OpenCode CLI.
-
-            - Trigger: scheduled/manual workflow
-            - Method: source-vs-local freshness comparison
-            - Action: update pipeline executed only when stale
-
-            Guide: `.github/AGENTIC_DATASET_UPDATE_GUIDE.md`
-          labels: |
-            automated
-            data-update
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
