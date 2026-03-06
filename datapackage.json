@@ -95,52 +95,16 @@
   "views": [
     {
       "name": "graph",
-      "title": "Gold Prices (Monthly in USD)",
-      "resources": [
-        "monthly"
-      ],
-      "specType": "vega-lite",
+      "resourceName": "monthly",
+      "specType": "simple",
       "spec": {
-        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-        "data": {
-          "url": "data/monthly.csv",
-          "format": {
-            "type": "csv"
-          }
-        },
-        "transform": [
-          {
-            "calculate": "toDate(datum.Date + '-01')",
-            "as": "DateParsed"
-          }
+        "group": "Date",
+        "series": [
+          "Price"
         ],
-        "mark": {
-          "type": "line",
-          "point": true
-        },
-        "encoding": {
-          "x": {
-            "field": "DateParsed",
-            "type": "temporal",
-            "title": "Date"
-          },
-          "y": {
-            "field": "Price",
-            "type": "quantitative",
-            "title": "Price"
-          },
-          "tooltip": [
-            {
-              "field": "Date",
-              "type": "nominal"
-            },
-            {
-              "field": "Price",
-              "type": "quantitative"
-            }
-          ]
-        }
-      }
+        "type": "line"
+      },
+      "title": "Gold Prices (Monthly in USD)"
     }
   ],
   "collection": "stock-market-data"
