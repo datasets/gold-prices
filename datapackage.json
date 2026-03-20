@@ -32,6 +32,18 @@
   ],
   "resources": [
     {
+      "name": "monthly-processed",
+      "path": "data/monthly-processed.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          { "name": "Date", "type": "date", "format": "any" },
+          { "name": "Price", "type": "number", "description": "Gold price in USD per troy ounce" }
+        ]
+      }
+    },
+    {
       "dpp:streaming": true,
       "encoding": "utf-8-sig",
       "format": "csv",
@@ -94,17 +106,49 @@
   "version": "0.2.0",
   "views": [
     {
-      "name": "graph",
-      "resourceName": "monthly",
-      "specType": "simple",
+      "name": "gold-price-history",
+      "title": "Gold Price Since 1833",
+      "description": "Monthly gold price in USD per troy ounce from 1833 to present. For over 130 years prices held near $20 under the gold standard. Nixon's 1971 decision to end dollar-gold convertibility broke the peg — prices have risen roughly 280× since, recently surpassing $5,000.",
+      "resources": ["monthly-processed"],
+      "specType": "plot",
       "spec": {
-        "group": "Date",
-        "series": [
-          "Price"
-        ],
-        "type": "line"
-      },
-      "title": "Gold Prices (Monthly in USD)"
+        "dateFields": ["Date"],
+        "height": 420,
+        "marginLeft": 70,
+        "x": { "label": null },
+        "y": {
+          "label": "Price (USD per troy oz)",
+          "tickFormat": "$,.0f",
+          "grid": true
+        },
+        "marks": [
+          {
+            "type": "ruleX",
+            "staticData": [{ "x": "1971-08-01" }],
+            "x": "x",
+            "stroke": "#9ca3af",
+            "strokeDasharray": "4,4",
+            "tip": false
+          },
+          {
+            "type": "text",
+            "staticData": [{ "x": "1971-08-01", "y": 4200, "label": "End of gold standard (1971)" }],
+            "x": "x", "y": "y", "text": "label",
+            "fill": "#6b7280",
+            "fontSize": 11,
+            "textAnchor": "start",
+            "dx": 6
+          },
+          {
+            "type": "line",
+            "x": "Date",
+            "y": "Price",
+            "stroke": "#b45309",
+            "strokeWidth": 1.5,
+            "tip": true
+          }
+        ]
+      }
     }
   ],
   "collection": "stock-market-data"
