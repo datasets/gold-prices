@@ -117,6 +117,7 @@
         "marginLeft": 70,
         "x": { "label": null },
         "y": {
+          "type": "log",
           "label": "Price (USD per troy oz)",
           "tickFormat": "$,.0f",
           "grid": true
