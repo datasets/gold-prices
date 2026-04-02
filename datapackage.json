@@ -118,7 +118,7 @@
         "x": { "label": null },
         "y": {
           "type": "log",
-          "label": "Price (USD per troy oz)",
+          "label": "Price (USD per troy oz, log scale)",
           "tickFormat": "$,.0f",
           "grid": true
         },
