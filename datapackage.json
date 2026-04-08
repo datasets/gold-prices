@@ -107,7 +107,7 @@
   "views": [
     {
       "name": "gold-price-history",
-      "title": "Gold Price Since 1833",
+      "title": "Gold Price History Since 1833",
       "description": "Monthly gold price in USD per troy ounce from 1833 to present. For over 130 years prices held near $20 under the gold standard. Nixon's 1971 decision to end dollar-gold convertibility broke the peg — prices have risen roughly 280× since, recently surpassing $5,000.",
       "resources": ["monthly-processed"],
       "specType": "plot",
