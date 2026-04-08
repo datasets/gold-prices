@@ -155,6 +155,12 @@ def process_and_merge_pdf():
     merge_with_existing("monthly", monthly_df)
 
 
+def generate_monthly_processed():
+    df = pd.read_csv(f"{data}monthly.csv")
+    df["Date"] = pd.to_datetime(df["Date"], format="%Y-%m").dt.strftime("%Y-%m-%d")
+    df.to_csv(f"{data}monthly-processed.csv", index=False, float_format="%.3f")
+
+
 def process():
     print("Processing...")
     download_xls()
@@ -171,6 +177,9 @@ def process():
         process_and_merge_pdf()
     except Exception as exc:
         print(f"Skipping PDF merge due to upstream/source issue: {exc}")
+
+    print("Generating monthly-processed.csv from monthly.csv")
+    generate_monthly_processed()
 
     print("Done!")
 
