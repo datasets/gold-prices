@@ -33,6 +33,7 @@
   "resources": [
     {
       "name": "monthly-processed",
+      "description": "Monthly gold prices in USD per troy ounce since 1833, with dates formatted as ISO 8601 date strings.",
       "path": "data/monthly-processed.csv",
       "format": "csv",
       "mediatype": "text/csv",
@@ -49,6 +50,7 @@
       "format": "csv",
       "mediatype": "text/csv",
       "name": "annual",
+      "description": "Annual average gold prices in USD per troy ounce since 1833, aggregated from monthly data.",
       "path": "data/annual.csv",
       "profile": "tabular-data-resource",
       "schema": {
@@ -74,6 +76,7 @@
       "format": "csv",
       "mediatype": "text/csv",
       "name": "monthly",
+      "description": "Monthly gold prices in USD per troy ounce since 1833, sourced from Timothy Green's historical records and the World Bank Commodity Markets data.",
       "path": "data/monthly.csv",
       "profile": "tabular-data-resource",
       "schema": {
