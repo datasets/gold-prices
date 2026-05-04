@@ -4,7 +4,7 @@
     {
       "id": "odc-pddl",
       "name": "public_domain_dedication_and_license",
-      "url": "http://opendatacommons.org/licenses/pddl/1.0/",
+      "url": "https://opendatacommons.org/licenses/pddl/1-0/",
       "version": "1.0"
     }
   ],
@@ -45,8 +45,7 @@
       }
     },
     {
-      "dpp:streaming": true,
-      "encoding": "utf-8-sig",
+      "encoding": "utf-8",
       "format": "csv",
       "mediatype": "text/csv",
       "name": "annual",
@@ -58,7 +57,7 @@
           {
             "format": "default",
             "name": "Date",
-            "type": "yearmonth"
+            "type": "year"
           },
           {
             "format": "default",
@@ -100,9 +99,14 @@
   ],
   "sources": [
     {
-      "name": "worldbank-gold-prices",
+      "name": "worldbank-commodity-markets",
       "path": "https://www.worldbank.org/en/research/commodity-markets",
-      "title": "Worldbank gold prices"
+      "title": "World Bank Commodity Markets (Pink Sheet)"
+    },
+    {
+      "name": "timothy-green-historical-gold-prices",
+      "path": "https://nma.org/wp-content/uploads/2016/09/historic_gold_prices_1833_pres.pdf",
+      "title": "Timothy Green Historical Gold Price Table (National Mining Association)"
     }
   ],
   "title": "Gold Prices",
