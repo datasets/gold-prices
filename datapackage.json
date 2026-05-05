@@ -1,11 +1,11 @@
 {
   "homepage": "https://www.worldbank.org/",
+  "description": "Monthly and annual gold prices in USD per troy ounce from 1833 to present. Historical data (1833–1959) is sourced from records compiled by Timothy Green; data from 1960 onward is sourced from the World Bank Commodity Markets portal.",
   "licenses": [
     {
-      "id": "odc-pddl",
-      "name": "public_domain_dedication_and_license",
-      "url": "http://opendatacommons.org/licenses/pddl/1.0/",
-      "version": "1.0"
+      "name": "ODC-PDDL-1.0",
+      "path": "https://opendatacommons.org/licenses/pddl/1-0/",
+      "title": "Open Data Commons Public Domain Dedication and License"
     }
   ],
   "name": "gold-prices",
@@ -33,20 +33,27 @@
   "resources": [
     {
       "name": "monthly-processed",
-      "description": "Monthly gold prices in USD per troy ounce from 1833 to present, with dates formatted as ISO 8601 full dates (YYYY-MM-DD).",
+      "description": "Monthly gold prices in USD per troy ounce from 1833 to present, with dates formatted as ISO 8601 full dates (YYYY-MM-DD). Rows from 1833 to 1959 carry the annual average price repeated for every month of the year, as no true monthly readings exist for that period.",
       "path": "data/monthly-processed.csv",
       "format": "csv",
       "mediatype": "text/csv",
       "schema": {
         "fields": [
-          { "name": "Date", "type": "date", "format": "any" },
-          { "name": "Price", "type": "number", "description": "Gold price in USD per troy ounce" }
+          {
+            "name": "Date",
+            "type": "date",
+            "description": "First day of the month in YYYY-MM-DD format (ISO 8601)."
+          },
+          {
+            "name": "Price",
+            "type": "number",
+            "description": "Gold price in USD per troy ounce."
+          }
         ]
       }
     },
     {
-      "dpp:streaming": true,
-      "encoding": "utf-8-sig",
+      "encoding": "utf-8",
       "format": "csv",
       "mediatype": "text/csv",
       "name": "annual",
@@ -56,14 +63,14 @@
       "schema": {
         "fields": [
           {
-            "format": "default",
             "name": "Date",
-            "type": "yearmonth"
+            "type": "year",
+            "description": "Year of the observation (YYYY)."
           },
           {
-            "format": "default",
             "name": "Price",
-            "type": "number"
+            "type": "number",
+            "description": "Annual average gold price in USD per troy ounce."
           }
         ],
         "missingValues": [
@@ -76,20 +83,20 @@
       "format": "csv",
       "mediatype": "text/csv",
       "name": "monthly",
-      "description": "Monthly gold prices in USD per troy ounce from 1833 to present, with dates in YYYY-MM format.",
+      "description": "Monthly gold prices in USD per troy ounce from 1833 to present, with dates in YYYY-MM format. Rows from 1833 to 1959 carry the annual average price repeated for every month of the year, as no true monthly readings exist for that period.",
       "path": "data/monthly.csv",
       "profile": "tabular-data-resource",
       "schema": {
         "fields": [
           {
-            "format": "default",
             "name": "Date",
-            "type": "yearmonth"
+            "type": "yearmonth",
+            "description": "Year and month of the observation in YYYY-MM format."
           },
           {
-            "format": "default",
             "name": "Price",
-            "type": "number"
+            "type": "number",
+            "description": "Gold price in USD per troy ounce."
           }
         ],
         "missingValues": [
@@ -100,9 +107,14 @@
   ],
   "sources": [
     {
-      "name": "worldbank-gold-prices",
+      "name": "worldbank-commodity-markets",
       "path": "https://www.worldbank.org/en/research/commodity-markets",
-      "title": "Worldbank gold prices"
+      "title": "World Bank Commodity Markets (Pink Sheet)"
+    },
+    {
+      "name": "timothy-green-historical-gold-prices",
+      "path": "https://nma.org/wp-content/uploads/2016/09/historic_gold_prices_1833_pres.pdf",
+      "title": "Timothy Green Historical Gold Price Table (National Mining Association)"
     }
   ],
   "title": "Gold Prices",
