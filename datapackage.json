@@ -42,7 +42,6 @@
           {
             "name": "Date",
             "type": "date",
-            "format": "default",
             "description": "First day of the month in YYYY-MM-DD format (ISO 8601)."
           },
           {
@@ -66,13 +65,11 @@
           {
             "name": "Date",
             "type": "year",
-            "format": "default",
             "description": "Year of the observation (YYYY)."
           },
           {
             "name": "Price",
             "type": "number",
-            "format": "default",
             "description": "Annual average gold price in USD per troy ounce."
           }
         ],
@@ -94,13 +91,11 @@
           {
             "name": "Date",
             "type": "yearmonth",
-            "format": "default",
             "description": "Year and month of the observation in YYYY-MM format."
           },
           {
             "name": "Price",
             "type": "number",
-            "format": "default",
             "description": "Gold price in USD per troy ounce."
           }
         ],
