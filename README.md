@@ -21,7 +21,7 @@ python scripts/process.py
 ### Notes from the Sources
 
 * Currently data has been sourced using multiple datasets:
-  - **Historical data (1833–1959):** Timothy Green's Historical Gold Price Table, originally hosted at the National Mining Association. Note: as of 2026 this PDF requires a login to download; the update script handles this gracefully by skipping the PDF merge if the file is unavailable.
+  - **Historical data (1833–1959):** Timothy Green's Historical Gold Price Table, originally hosted at the National Mining Association. Note: as of 2026 this PDF requires a login to download; the update script handles this gracefully by skipping the PDF merge if the file is unavailable. Because only annual figures exist for this period, the monthly and monthly-processed files repeat the annual average price for every month of the year (i.e. all 12 months in 1890 carry the same value).
   - **Modern data (1960–present):** [World Bank Commodity Markets](https://www.worldbank.org/en/research/commodity-markets), which is regularly updated and provides comprehensive, up-to-date data on a wide range of commodity prices.
 
 
